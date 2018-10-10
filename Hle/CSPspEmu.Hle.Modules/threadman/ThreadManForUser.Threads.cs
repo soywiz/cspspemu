@@ -566,26 +566,26 @@ namespace CSPspEmu.Hle.Modules.threadman
 
 
             CpuThreadState.Yield();
-            foreach (SceKernelThreadInfo thread in readyThreads)
-            {
-                if (thread.currentPriority == priority)
-                {
-                    // When rotating the ready queue of the current thread,
-                    // the current thread yields and is moved to the end of its
-                    // ready queue.
-                    if (priority == currentThread.currentPriority)
-                    {
-                        thread = currentThread;
-                        // The current thread will be moved to the front of the ready queue
-                        hleChangeThreadState(thread, PSP_THREAD_READY);
-                    }
-                    // Move the thread to the end of the ready queue
-                    removeFromReadyThreads(thread);
-                    addToReadyThreads(thread, false);
-                    hleRescheduleCurrentThread();
-                    break;
-                }
-            }
+            //foreach (SceKernelThreadInfo thread in readyThreads)
+            //{
+            //    if (thread.currentPriority == priority)
+            //    {
+            //        // When rotating the ready queue of the current thread,
+            //        // the current thread yields and is moved to the end of its
+            //        // ready queue.
+            //        if (priority == currentThread.currentPriority)
+            //        {
+            //            thread = currentThread;
+            //            // The current thread will be moved to the front of the ready queue
+            //            hleChangeThreadState(thread, PSP_THREAD_READY);
+            //        }
+            //        // Move the thread to the end of the ready queue
+            //        removeFromReadyThreads(thread);
+            //        addToReadyThreads(thread, false);
+            //        hleRescheduleCurrentThread();
+            //        break;
+            //    }
+            //}
 
             return 0;
         }
