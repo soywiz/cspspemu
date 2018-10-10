@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using CSPspEmu.Core;
 using CSPspEmu.Core.Audio;
-//using CSPspEmu.Core.Audio.Impl.Openal;
+using CSPspEmu.Core.Audio.Impl.Openal;
 using CSPspEmu.Core.Cpu;
 using CSPspEmu.Core.Gpu;
 using CSPspEmu.Core.Memory;

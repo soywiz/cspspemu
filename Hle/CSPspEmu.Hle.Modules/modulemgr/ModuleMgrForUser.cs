@@ -459,8 +459,8 @@ namespace CSPspEmu.Hle.Modules.modulemgr
         public int sceKernelStopUnloadSelfModule(int ArgumentSize, void* ArgumentPointer, int* StatusPointer,
             void* OptionsAddress)
         {
-            throw (new NotImplementedException("sceKernelStopUnloadSelfModule"));
-            //return 0;
+            //throw (new NotImplementedException("sceKernelStopUnloadSelfModule"));
+            return 0;
         }
     }
 }

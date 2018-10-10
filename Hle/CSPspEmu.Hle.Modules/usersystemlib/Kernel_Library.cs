@@ -15,9 +15,18 @@ namespace CSPspEmu.Hle.Modules.usersystemlib
 
         private int _sceKernelLockLwMutexCB(SceLwMutexWorkarea* workarea, int count, int* TimeOut, bool HandleCallbacks)
         {
-#if false
-			if (count <= 0) throw (new SceKernelException(SceKernelErrors.ERROR_KERNEL_ILLEGAL_COUNT));
-			if (count > 1 && workarea->attr.HasFlagGeneric(ThreadManForUser.MutexAttributesEnum.AllowRecursive)) throw (new SceKernelException(SceKernelErrors.ERROR_KERNEL_ILLEGAL_COUNT));
+
+            /*xDPx Uncomented IF false 
+             We should be able to use ths code validate on kernel obejcts seems to cause an issue and no error defined*/
+
+            SceKernelErrors error = SceKernelErrors.ERROR_OK;
+
+
+            //TODO!
+            //: ADD VALIDATE FLAG
+
+            if (count <= 0) throw (new SceKernelException(SceKernelErrors.ERROR_KERNEL_ILLEGAL_COUNT));
+			if (count > 1 && workarea->attr.HasFlag(ThreadManForUser.MutexAttributesEnum.AllowRecursive)) throw (new SceKernelException(SceKernelErrors.ERROR_KERNEL_ILLEGAL_COUNT));
 			if (count + workarea->lockLevel < 0) throw (new SceKernelException(SceKernelErrors.ERROR_KERNEL_LWMUTEX_LOCK_OVERFLOW));
 			if (workarea->uid == -1) throw (new SceKernelException(SceKernelErrors.ERROR_KERNEL_LWMUTEX_NOT_FOUND));
 
@@ -25,32 +34,33 @@ namespace CSPspEmu.Hle.Modules.usersystemlib
 			{
 				if (workarea->lockThread != 0)
 				{
-					// Validate that it actually exists so we can return an error if not.
-					kernelObjects.Get<LwMutex>(workarea->uid, error);
-					if (error)
-						return false;
+                    // Validate that it actually exists so we can return an error if not.
+                    
+     //               kernelObjects.Get<LwMutex>(workarea->uid, error);
+     //               Kernel_Library.GetObjectFromPoolHelper<SceKernelLwMutexInfo>(workarea->uid, error);
+					//if (error)
+					//	return 0;
 				}
 
 				workarea->lockLevel = count;
-				workarea->lockThread = __KernelGetCurThread();
-				return true;
+				workarea->lockThread = sceKernelGetThreadId();// __KernelGetCurThread())
+                return 1;
 			}
 
-			if (workarea->lockThread == __KernelGetCurThread())
-			{
+            if (workarea->lockThread == sceKernelGetThreadId())// __KernelGetCurThread())
+            {
 				// Recursive mutex, let's just increase the lock count and keep going
-				if (workarea->attr & PSP_MUTEX_ATTR_ALLOW_RECURSIVE)
+				if (workarea->attr  == ThreadManForUser.MutexAttributesEnum.AllowRecursive)
 				{
 					workarea->lockLevel += count;
-					return true;
+					return 1;
 				}
 				else
 				{
-					error = PSP_LWMUTEX_ERROR_ALREADY_LOCKED;
-					return false;
+                    error = SceKernelErrors.ERROR_KERNEL_LWMUTEX_LOCKED; //PSP_LWMUTEX_ERROR_ALREADY_LOCKED;
+					return 0;
 				}
 			}
-#endif
             return 0;
         }
 
@@ -63,7 +73,8 @@ namespace CSPspEmu.Hle.Modules.usersystemlib
 
         private int _sceKernelUnlockLwMutex(SceLwMutexWorkarea* workarea, int count)
         {
-            return 0;
+            /*xDPx removed this section some resion the unclock function was not included*/
+            //return 0; 
 
             if (workarea->uid == -1)
             {

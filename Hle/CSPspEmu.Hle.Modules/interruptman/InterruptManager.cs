@@ -14,7 +14,9 @@ namespace CSPspEmu.Hle.Modules.interruptman
             switch (PspInterrupt)
             {
                 case PspInterrupts.PspVblankInt: break;
-                default: throw(new NotImplementedException($"Can't handle '{PspInterrupt}'"));
+
+                default: //throw(new NotImplementedException($"Can't handle '{PspInterrupt}'"));
+                    break;
             }
         }
 
