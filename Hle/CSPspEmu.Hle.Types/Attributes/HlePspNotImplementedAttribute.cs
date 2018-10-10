@@ -8,7 +8,7 @@ namespace CSPspEmu.Hle
         /// <summary>
         /// 
         /// </summary>
-        public bool PartialImplemented = false;
+        public bool PartialImplemented = true;
 
         /// <summary>
         /// 

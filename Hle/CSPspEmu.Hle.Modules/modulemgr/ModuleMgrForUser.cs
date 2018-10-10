@@ -343,6 +343,17 @@ namespace CSPspEmu.Hle.Modules.modulemgr
         {
             //throw(new NotImplementedException());
             //return 0x1234;
+            var SceModulePtr =
+                  (SceModule*)Memory.PspAddressToPointerSafe(Address);
+
+            if (SceModulePtr == null)
+            {
+                Console.WriteLine(string.Format("sceKernelGetModuleIdByAddress addr={0} module not found", SceModulePtr->EntryAddress));
+                return -1;
+            }
+
+            return (int)SceModulePtr->ModuleId;
+
             return -1;
         }
 

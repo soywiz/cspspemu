@@ -62,6 +62,7 @@ namespace CSPspEmu.Hle.Modules.sysmem
         [HlePspNotImplemented]
         public void SysMemUserForUser_35669D4C()
         {
+
         }
 
         /// <summary>
@@ -120,6 +121,10 @@ namespace CSPspEmu.Hle.Modules.sysmem
         [HlePspNotImplemented]
         public void sceKernelSetCompiledSdkVersion380_390(uint Param)
         {
+            //XDPX
+            //TODO TEST
+            if (Param == 380)
+                _sceKernelSetCompiledSdkVersion(Param, "sceKernelSetCompiledSdkVersion380", new uint[] { 0x308000 });
         }
 
         /// <summary>
